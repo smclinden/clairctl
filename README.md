@@ -5,11 +5,11 @@
 ---
 This was forked because I was unable to scan local images, I kept getting 404 errors in Clair.  Having never cut a line of Go code, it only seemed logical to try to debug it.  It is a really cool tool. How hard could it be?
 
-Reading the code always clears up the fog.  Now I think I grok how it all fits together.
+Actually, Go is so full of common sense, not that hard. Figured out a few things about Clair and how this tool works.
 
-When you pass it a local image to scan, clairCtl will copy the image layers to a temp location, and then fire up a temporary HTTP server to host them up for Clair.
+When you pass it a local image to scan, __clairCtl__ will copy the image layers to a temp location, and then fire up a temporary HTTP server to host them up for Clair.
 
-clairCtl then sends requests to Clair to scan each layer, which is an url back to itself.
+__clairCtl__ then sends requests to Clair to scan each layer, which is an url back to itself.
 
 The issue I was having was that the url clairCtl was sending to Clair didn't match the actual path it was serving via HTTP, because it was derriving the temp path in two places using two different sources for image name information, and they often didn't match.
 
@@ -25,7 +25,7 @@ Local scanning seems like all you would need in a CI job, as Clair is likely to 
 
 __clairCtl__ seems perfect for this, and now it works...
 
-And my Go skills can only get better ;)
+This may be a codebase worth maintaining.
 ---
 
 Clairctl is a lightweight command-line tool doing the bridge between Registries as Docker Hub, Docker Registry or Quay.io, and the CoreOS vulnerability tracker, Clair.
