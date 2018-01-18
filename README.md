@@ -25,7 +25,8 @@ Local scanning seems like all you would need in a CI job, as Clair is likely to 
 
 __clairCtl__ seems perfect for this, and now it works...
 
-This may be a codebase worth maintaining.
+This may be a codebase worth maintaining.  Props to the original author for such great work.
+
 ---
 
 Clairctl is a lightweight command-line tool doing the bridge between Registries as Docker Hub, Docker Registry or Quay.io, and the CoreOS vulnerability tracker, Clair.
