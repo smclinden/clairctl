@@ -1,0 +1,20 @@
+#!/bin/bash
+echo "Scan an official DockerHub image locally..."
+docker pull docker.io/library/postgres:9.6
+./clairctl analyze docker.io/library/postgres:9.6 --local --log-level DEBUG
+
+echo "Scan an official DockerHub that breaks if not done locally..."
+docker pull docker.io/library/ubuntu:latest
+./clairctl analyze docker.io/library/ubuntu:latest --local --log-level DEBUG
+
+echo "Scan a Gitlab image locally..."
+docker pull dockerhub.intelligent-design.ca:443/area51/gearon/gearon-test:latest
+./clairctl analyze dockerhub.intelligent-design.ca:443/area51/gearon/gearon-test:latest --local --log-level DEBUG
+
+echo "Scan mariadb:latest locally..."
+docker pull docker.io/library/mariadb:latest
+./clairctl analyze docker.io/library/mariadb:latest --local --log-level DEBUG
+
+echo "Scan mariadb:10.2 locally..."
+docker pull docker.io/library/mariadb:10.2
+./clairctl analyze docker.io/library/mariadb:10.2 --local --log-level DEBUG
