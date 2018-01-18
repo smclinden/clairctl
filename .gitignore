@@ -2,4 +2,7 @@ clairctl
 clairctl.yml
 reports/
 docker-compose-data/clair-tmp/*
+!docker-compose-data/clair-tmp/README.md
 docker-compose-data/postgres-data/**
+http/**
+!http/README.md
