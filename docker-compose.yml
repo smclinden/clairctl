@@ -20,7 +20,7 @@ services:
       - 6061:6061
     volumes:
       - ./docker-compose-data/clair-config/:/config/:ro
-      - ./docker-compose-data/clair-tmp/:/tmp/:rw
+      - ./docker-compose-data/clair-tmp/:tmp/:rw
     depends_on: 
       postgres:
         condition: service_started
