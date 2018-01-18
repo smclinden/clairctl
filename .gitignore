@@ -3,5 +3,3 @@ clairctl.yml
 reports/
 docker-compose-data/clair-tmp/*
 docker-compose-data/postgres-data/**
-!tmp/README.md
-tmp
