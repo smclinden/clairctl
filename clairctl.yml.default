@@ -1,3 +1,5 @@
+# copy this file to clairctl.yml and adjust as needed
+
 clair:
   port: 6060
   healthPort: 6061
@@ -5,10 +7,13 @@ clair:
     host: HOST
     headers:
        myHeader: header
-  uri: http://clair
+  uri: http://127.0.0.1
   report:
     path: ./reports
     format: html
-docker:
-  insecure-registries:
-    - "my-own-registry:5000"
+clairctl:
+  port: 44480
+  tempfolder: /tmp
+#docker:
+#  insecure-registries:
+#    - "my-own-registry:5000"

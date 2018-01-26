@@ -25,12 +25,12 @@ var errNoInterfaceProvided = errors.New("could not load configuration: no interf
 var errInvalidInterface = errors.New("Interface does not exist")
 var ErrLoginNotFound = errors.New("user is not log in")
 
-var IsLocal = false
+var IsLocal = true
 var Insecure = false
 var NoClean = false
 
 var ImageName string
-var ClusterImages  map[string]struct{}
+var ClusterImages map[string]struct{}
 
 type reportConfig struct {
 	Path, Format string

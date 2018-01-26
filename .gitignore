@@ -6,3 +6,4 @@ docker-compose-data/clair-tmp/*
 docker-compose-data/postgres-data/**
 http/**
 !http/README.md
+tmp

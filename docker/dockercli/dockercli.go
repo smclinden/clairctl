@@ -45,7 +45,7 @@ func GetLocalManifest(imageName string, withExport bool) (reference.NamedTagged,
 	if err != nil {
 		return nil, nil, err
 	}
-	
+
 	log.Debugf("%+v\n", n)
 
 	var manifest distribution.Manifest
@@ -98,6 +98,8 @@ func save(imageName string) (distribution.Manifest, error) {
 	log.Debug("docker image to save: ", imageName)
 	log.Debug("saving in: ", path)
 
+	fmt.Printf("\ncaching image layers for exchange with clair, please be patient...")
+
 	cli, err := client.NewEnvClient()
 	if err != nil {
 		panic(err)
@@ -115,6 +117,7 @@ func save(imageName string) (distribution.Manifest, error) {
 		if err := fo.Close(); err != nil {
 			panic(err)
 		}
+		fmt.Printf("layers cached!\n")
 	}()
 
 	if err != nil {

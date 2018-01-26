@@ -82,7 +82,7 @@ var reportCmd = &cobra.Command{
 
 func init() {
 	RootCmd.AddCommand(reportCmd)
-	reportCmd.Flags().BoolVarP(&config.IsLocal, "local", "l", false, "Use local images")
+	reportCmd.Flags().BoolVarP(&config.IsLocal, "local", "l", true, "Use local images")
 	reportCmd.Flags().StringP("format", "f", "html", "Format for Report [html,json]")
 	reportCmd.Flags().StringVarP(&whitelistConfig, "whitelist", "w", "", "YAML Configuration file for severity whitelisting")
 	viper.BindPFlag("clair.report.format", reportCmd.Flags().Lookup("format"))

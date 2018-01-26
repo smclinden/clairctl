@@ -57,5 +57,5 @@ func startLocalServer() {
 
 func init() {
 	RootCmd.AddCommand(pushCmd)
-	pushCmd.Flags().BoolVarP(&config.IsLocal, "local", "l", false, "Use local images")
+	pushCmd.Flags().BoolVarP(&config.IsLocal, "local", "l", true, "Use local images")
 }

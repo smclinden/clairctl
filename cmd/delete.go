@@ -40,5 +40,5 @@ var deleteCmd = &cobra.Command{
 
 func init() {
 	RootCmd.AddCommand(deleteCmd)
-	deleteCmd.Flags().BoolVarP(&config.IsLocal, "local", "l", false, "Use local images")
+	deleteCmd.Flags().BoolVarP(&config.IsLocal, "local", "l", true, "Use local images")
 }

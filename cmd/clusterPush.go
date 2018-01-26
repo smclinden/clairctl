@@ -39,5 +39,5 @@ var clusterPushCmd = &cobra.Command{
 
 func init() {
 	clusterCmd.AddCommand(clusterPushCmd)
-	clusterPushCmd.Flags().BoolVarP(&config.IsLocal, "local", "l", false, "Use local images")
+	clusterPushCmd.Flags().BoolVarP(&config.IsLocal, "local", "l", true, "Use local images")
 }

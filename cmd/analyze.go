@@ -195,7 +195,7 @@ func init() {
 	RootCmd.AddCommand(analyzeCmd)
 	analyzeCmd.Flags().StringVarP(&filters, "filters", "f", "", "Filters Severity, comma separated (eg. High,Critical)")
 	analyzeCmd.Flags().StringVarP(&whitelistConfig, "whitelist", "w", "", "YAML Configuration file for severity whitelisting")
-	analyzeCmd.Flags().BoolVarP(&config.IsLocal, "local", "l", false, "Use local images")
+	analyzeCmd.Flags().BoolVarP(&config.IsLocal, "local", "l", true, "Use local images")
 	analyzeCmd.Flags().BoolVarP(&noFail, "noFail", "n", false, "Not exiting with non-zero even with vulnerabilities found")
 	analyzeCmd.Flags().StringVar(&format, "format", "plain", "Output format (plain, json)")
 }

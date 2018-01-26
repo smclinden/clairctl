@@ -59,8 +59,6 @@ func analyzeLayer(id string) (v1.LayerEnvelope, error) {
 	}
 	SetRequestHeaders(request)
 
-	log.Debugf("sending url for analysis: %v", lURI)
-	
 	response, err := (&http.Client{}).Do(request)
 
 	if err != nil {

@@ -36,7 +36,7 @@ RUN  mv /tmp/clairctl ${GOPATH}/src/github.com/ids/clairctl \
  && echo $'clair:\n\
   port: 6060\n\
   healthPort: 6061\n\
-  uri: http://clair\n\
+  uri: http://clair-api\n\
   priority: Low\n\
   report:\n\
     path: /reports\n\

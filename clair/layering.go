@@ -42,6 +42,7 @@ func (layers *layering) pushAll() error {
 	if layerCount == 0 {
 		log.Warning("there is no layer to push")
 	}
+
 	for index, digest := range layers.digests {
 
 		if config.IsLocal {
@@ -54,7 +55,7 @@ func (layers *layering) pushAll() error {
 		u, _ := dockerdist.GetPushURL(layers.image.Hostname())
 		payload := v1.LayerEnvelope{Layer: &v1.Layer{
 			Name:       digest,
-			Path:       blobsURI(u.String(), layers.image.RemoteName() + "_" + layers.image.Tag(), digest),
+			Path:       blobsURI(u.String(), layers.image.RemoteName()+"_"+layers.image.Tag(), digest),
 			ParentName: layers.parentID,
 			Format:     "Docker",
 		}}
