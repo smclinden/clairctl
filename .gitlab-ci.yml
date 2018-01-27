@@ -21,9 +21,8 @@ before_script:
   - go generate ./clair
 
 stages:
-    - test
     - build
-
+    
 format:
     stage: test
     script:
