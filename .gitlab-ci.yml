@@ -21,12 +21,41 @@ before_script:
   - go generate ./clair
 
 stages:
-    - build
+  - build
+  - deploy
     
 compile:
-    stage: build
-    script:
-      - go build -race -ldflags "-extldflags '-static'" -o $CI_PROJECT_DIR/clairctl
-    artifacts:
-      paths:
-        - clairctl
+  stage: build
+  script:
+    - go build -race -ldflags "-extldflags '-static'" -o $CI_PROJECT_DIR/clairctl
+
+  artifacts:
+    paths:
+      - clairctl
+
+export:
+  stage: deploy
+  script:
+    - gox -os="linux" -os="darwin" -arch="amd64" -output="client-bins/{{.Dir}}-{{.OS}}-{{.Arch}}" -ldflags "-X github.com/ids/clairctl/cmd.version=$(cat VERSION)"
+  artifacts:
+    paths:
+      - clairctl
+  only:
+    - master
+
+
+dockerize:
+  image: docker:latest
+  services:
+    - docker:dind
+  stage: deploy
+  script:
+    - export VERSION=`cat $CI_PROJECT_DIR/VERSION`
+    - docker login -u "$DOCKERHUB_USERAME" -p "DOCKERHUB_PASSWORD"
+    - docker build -t idstudios/clairctl:$VERSION .
+    - docker tag idstudios/clairctl:$VERSION idstudios/clairctl:latest
+    - docker push idstudios/clairctl:$VERSION
+    - docker push idstudios/clairctl:latest
+  only:
+    - master
+    
