@@ -11,14 +11,6 @@ variables:
 # the default GOPATH being /go, then you'd need to have your
 # repository in /go/src/gitlab.com/namespace/project
 # Thus, making a symbolic link corrects this.
-before_script:
-  - mkdir -p $GOPATH/src/$(dirname $REPO_NAME)
-  - ln -svf $CI_PROJECT_DIR $GOPATH/src/$REPO_NAME
-  - cd $GOPATH/src/$REPO_NAME
-  - curl https://glide.sh/get | sh
-  - glide install -v
-  - go get -u github.com/jteeuwen/go-bindata/...
-  - go generate ./clair
 
 stages:
   - build
@@ -27,6 +19,13 @@ stages:
 compile:
   stage: build
   script:
+    - mkdir -p $GOPATH/src/$(dirname $REPO_NAME)
+    - ln -svf $CI_PROJECT_DIR $GOPATH/src/$REPO_NAME
+    - cd $GOPATH/src/$REPO_NAME
+    - curl https://glide.sh/get | sh
+    - glide install -v
+    - go get -u github.com/jteeuwen/go-bindata/...
+    - go generate ./clair
     - go build -race -ldflags "-extldflags '-static'" -o $CI_PROJECT_DIR/clairctl
 
   artifacts:
@@ -36,14 +35,19 @@ compile:
 export:
   stage: deploy
   script:
-    - go get github.com/mitchellh/gox
+    - mkdir -p $GOPATH/src/$(dirname $REPO_NAME)
+    - ln -svf $CI_PROJECT_DIR $GOPATH/src/$REPO_NAME
+    - cd $GOPATH/src/$REPO_NAME
+    - curl https://glide.sh/get | sh
+    - glide install -v
+    - go get -u github.com/jteeuwen/go-bindata/...
+    - go generate ./clair
     - gox -os="linux" -os="darwin" -arch="amd64" -output="client-bins/{{.Dir}}-{{.OS}}-{{.Arch}}" -ldflags "-X github.com/ids/clairctl/cmd.version=$(cat VERSION)"
   artifacts:
     paths:
       - clairctl
   only:
     - master
-
 
 dockerize:
   image: docker:latest
