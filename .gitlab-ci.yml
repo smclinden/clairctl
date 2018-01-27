@@ -36,6 +36,7 @@ compile:
 export:
   stage: deploy
   script:
+    - go get github.com/mitchellh/gox
     - gox -os="linux" -os="darwin" -arch="amd64" -output="client-bins/{{.Dir}}-{{.OS}}-{{.Arch}}" -ldflags "-X github.com/ids/clairctl/cmd.version=$(cat VERSION)"
   artifacts:
     paths:
