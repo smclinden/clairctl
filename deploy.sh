@@ -67,6 +67,7 @@ github-release upload \
 
 
 if [ "$CI_COMMIT_REF_NAME" == "master" ]; then
+  rm -rf $CI_PROJECT_DIR/client-bins
   git pull github master
   git checkout master
   git status

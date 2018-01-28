@@ -32,10 +32,6 @@ export:
   stage: deploy
   script:
     - bash $CI_PROJECT_DIR/deploy.sh
-  artifacts:
-    paths:
-      - client-bins/clairctl-darwin-amd64
-      - client-bins/clairctl-linux-amd64
   only:
     - develop
     - master
