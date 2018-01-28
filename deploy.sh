@@ -67,7 +67,7 @@ github-release upload \
 
 
 if [ "$CI_COMMIT_REF_NAME" == "master" ]; then
-  git pull
+  git pull github master
   git checkout master
   git status
   git branch

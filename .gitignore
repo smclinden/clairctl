@@ -7,3 +7,4 @@ docker-compose-data/postgres-data/**
 http/**
 !http/README.md
 tmp
+client-bins
