@@ -19,7 +19,7 @@ cd $CI_PROJECT_DIR
 
 export VERSION=`cat VERSION`
 export PRE_FLAG=
-if [ "$CI_COMMIT_REF_NAME" == "develop" ] then;
+if [ "$CI_COMMIT_REF_NAME" == "develop" ]; then
   VERSION = $VERSION_unstable
   PRE_FLAG=--pre-release
 fi
