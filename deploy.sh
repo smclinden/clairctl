@@ -16,9 +16,14 @@ gox -os="linux" -os="darwin" -arch="amd64" -output="client-bins/{{.Dir}}-{{.OS}}
 go get github.com/aktau/github-release
 
 cd $CI_PROJECT_DIR
-echo $PWD
-echo $CI_COMMIT_TAG
-VERSION=`cat VERSION`_${CI_COMMIT_SHA:0:8}
+
+export VERSION=`cat VERSION`
+export PRE_FLAG=
+if [ "$CI_COMMIT_REF_NAME" == "develop" ] then;
+  VERSION = $VERSION_unstable
+  PRE_FLAG=--pre-release
+fi
+
 echo "VERSION: ${VERSION}"
 
 git config --global user.email $GITHUB_EMAIL
@@ -42,7 +47,7 @@ github-release release \
   --tag $VERSION \
   --name "${VERSION} Release" \
   --description "${RELEASE_DESC}" \
-  --pre-release  
+  $PRE_FLAG  
 
 github-release upload \
     --user $GITHUB_USER \

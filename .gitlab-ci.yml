@@ -37,18 +37,15 @@ export:
       - client-bins/clairctl-darwin-amd64
       - client-bins/clairctl-linux-amd64
   only:
+    - develop
     - master
 
 dockerize:
   image: gitlab/dind
   stage: deploy
   script:
-    - cd $CI_PROJECT_DIR && export VERSION=`cat VERSION`_${CI_COMMIT_SHA:0:8}
-    - docker login -u "$DOCKERHUB_USERNAME" -p "$DOCKERHUB_PASSWORD"
-    - docker build -t idstudios/clairctl:$VERSION .
-    - docker tag idstudios/clairctl:$VERSION idstudios/clairctl:latest
-    - docker push idstudios/clairctl:$VERSION
-    - docker push idstudios/clairctl:latest
+    - bash $CI_PROJECT_DIR/dockerize.sh
   only:
+    - develop
     - master
     
