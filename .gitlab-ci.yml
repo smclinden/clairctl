@@ -42,18 +42,18 @@ export:
   only:
     - master
 
-#dockerize:
-#  image: docker:latest
-#  services:
-#    - docker:dind
-#  stage: deploy
-#  script:
-#    - export VERSION=`cat   /VERSION`
-#    - docker login -u "$DOCKERHUB_USERNAME" -p "DOCKERHUB_PASSWORD"
-#    - docker build -t idstudios/clairctl:$VERSION .
-#    - docker tag idstudios/clairctl:$VERSION idstudios/clairctl:latest
-#    - docker push idstudios/clairctl:$VERSION
-#    - docker push idstudios/clairctl:latest
-#  only:
-#    - master
+dockerize:
+  image: docker:latest
+  services:
+    - docker:dind
+  stage: deploy
+  script:
+    - export VERSION=`cat   /VERSION`
+    - docker login -u "$DOCKERHUB_USERNAME" -p "DOCKERHUB_PASSWORD"
+    - docker build -t idstudios/clairctl:$VERSION .
+    - docker tag idstudios/clairctl:$VERSION idstudios/clairctl:latest
+    - docker push idstudios/clairctl:$VERSION
+    - docker push idstudios/clairctl:latest
+  only:
+    - master
     
