@@ -67,11 +67,9 @@ github-release upload \
 
 
 if [ "$CI_COMMIT_REF_NAME" == "master" ]; then
-  rm -rf $CI_PROJECT_DIR/client-bins
-  echo "Before the pull"
   git status
-  git pull github master
   git checkout master
+  git pull github master
   git status
   git branch
   echo $VERSION > VERSION
