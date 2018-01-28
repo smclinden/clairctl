@@ -39,16 +39,8 @@ echo "configured remotes:"
 git remote -v
 
 echo "creating tag ${VERSION}"
-git tag -a $VERSION -m "${VERSION}"
-git push github master
+git tag -fa $VERSION -m "${VERSION}"
 git push github --tags
-github-release release \
-  --user $GITHUB_USER \
-  --repo $GITHUB_REPO \
-  --tag $VERSION \
-  --name "${VERSION}" \
-  --description $RELEASE_DESC \
-  --pre-release  
 
 github-release upload \
     --user $GITHUB_USER \
