@@ -35,14 +35,7 @@ compile:
 export:
   stage: deploy
   script:
-    - mkdir -p $GOPATH/src/$(dirname $REPO_NAME)
-    - ln -svf $CI_PROJECT_DIR $GOPATH/src/$REPO_NAME
-    - cd $GOPATH/src/$REPO_NAME
-    - curl https://glide.sh/get | sh
-    - glide install -v
-    - go get -u github.com/jteeuwen/go-bindata/...
-    - go generate ./clair
-    - gox -os="linux" -os="darwin" -arch="amd64" -output="client-bins/{{.Dir}}-{{.OS}}-{{.Arch}}" -ldflags "-X github.com/ids/clairctl/cmd.version=$(cat VERSION)"
+    - bash $CI_PROJECT_DIR/deploy.sh
   artifacts:
     paths:
       - clairctl
@@ -55,7 +48,7 @@ dockerize:
     - docker:dind
   stage: deploy
   script:
-    - export VERSION=`cat $CI_PROJECT_DIR/VERSION`
+    - export VERSION=`cat   /VERSION`
     - docker login -u "$DOCKERHUB_USERNAME" -p "DOCKERHUB_PASSWORD"
     - docker build -t idstudios/clairctl:$VERSION .
     - docker tag idstudios/clairctl:$VERSION idstudios/clairctl:latest
