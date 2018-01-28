@@ -16,8 +16,9 @@ gox -os="linux" -os="darwin" -arch="amd64" -output="client-bins/{{.Dir}}-{{.OS}}
 go get github.com/aktau/github-release
 
 cd $CI_PROJECT_DIR
-VERSION=`cat $CI_PROJECT_DIR/VERSION`
-VERSION=$VERSION_$CI_COMMIT_TAG
+echo $PWD
+echo $CI_COMMIT_TAG
+VERSION=`cat VERSION`_$CI_COMMIT_TAG
 echo "VERSION: ${VERSION}"
 
 echo "configured remotes:"
