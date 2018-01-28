@@ -56,7 +56,7 @@ dockerize:
   stage: deploy
   script:
     - export VERSION=`cat $CI_PROJECT_DIR/VERSION`
-    - docker login -u "$DOCKERHUB_USERAME" -p "DOCKERHUB_PASSWORD"
+    - docker login -u "$DOCKERHUB_USERNAME" -p "DOCKERHUB_PASSWORD"
     - docker build -t idstudios/clairctl:$VERSION .
     - docker tag idstudios/clairctl:$VERSION idstudios/clairctl:latest
     - docker push idstudios/clairctl:$VERSION
