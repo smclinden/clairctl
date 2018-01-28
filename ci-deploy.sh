@@ -41,6 +41,9 @@ else
   VERSION=`echo $VERSION | ./version-inc.sh` 
 fi
 
+THEME=$(git log -1 --pretty=%B)
+
+echo "THEME: ${THEME}"
 echo "VERSION: ${VERSION}"
 echo "creating tag ${VERSION}"
 git tag -a $VERSION -m "${VERSION}" -f 
@@ -58,6 +61,7 @@ github-release upload \
     --user $GITHUB_USER \
     --repo $GITHUB_REPO \
     --tag $VERSION \
+    --replace \
     --name "clairctl-darwin-amd64" \
     --file $CI_PROJECT_DIR/client-bins/clairctl-darwin-amd64
 
@@ -65,6 +69,7 @@ github-release upload \
     --user $GITHUB_USER \
     --repo $GITHUB_REPO \
     --tag $VERSION \
+    --replace \
     --name "clairctl-linux-amd64" \
     --file $CI_PROJECT_DIR/client-bins/clairctl-linux-amd64
 
