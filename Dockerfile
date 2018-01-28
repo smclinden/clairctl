@@ -46,6 +46,8 @@ clairctl:\n\
   tempfolder: /tmp'\
     > /home/clairctl/clairctl.yml
 
+RUN apk upgrade git
+RUN apk upgrade bin-utils
 
 USER clairctl
 
