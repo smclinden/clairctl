@@ -3,7 +3,7 @@
 GITHUB_USER=ids
 GITHUB_REPO=clairctl
 RELEASE_DESC="A CLI based utility for interacting with the Clair API"
-RELEASE_TITLE=" - latest stable release"
+RELEASE_TITLE=" - stable release"
 mkdir -p $GOPATH/src/$(dirname $REPO_NAME)
 ln -svf $CI_PROJECT_DIR $GOPATH/src/$REPO_NAME
 cd $GOPATH/src/$REPO_NAME
@@ -34,7 +34,7 @@ echo "CI_COMMIT_REF_NAME: ${CI_COMMIT_REF_NAME}"
 
 if [ "${CI_COMMIT_REF_NAME}" == "develop" ]; then
   PRE_FLAG=--pre-release
-  RELEASE_TITLE=" - latest development release, no promises"
+  RELEASE_TITLE=" - unstable"
 else
   # it's master, update the version
   VERSION=`cat VERSION`
