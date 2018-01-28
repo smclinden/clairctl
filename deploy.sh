@@ -37,10 +37,23 @@ git config --global user.name $GITHUB_USERNAME
 
 echo "configured remotes:"
 git remote -v
+git remote remove github
+git remote add github "https://$GITHUB_USER@$GITHUB_TOKEN@github.com/ids/clairctl"
+
+echo "re-configured remote w/ token:"
+git remote -v
 
 echo "creating tag ${VERSION}"
 git tag -fa $VERSION -m "${VERSION}"
 git push github --tags
+
+github-release release \
+  --user $GITHUB_USER \
+  --repo $GITHUB_REPO \
+  --tag $VERSION \
+  --name "${VERSION}" \
+  --description $RELEASE_DESC \
+  --pre-release  
 
 github-release upload \
     --user $GITHUB_USER \
