@@ -68,6 +68,7 @@ github-release upload \
 
 if [ "$CI_COMMIT_REF_NAME" == "master" ]; then
   git pull github master
+  git checkout master
   echo $VERSION > VERSION
   git add VERSION
   git commit -a -m "automated update to version: ${VERSION}"
