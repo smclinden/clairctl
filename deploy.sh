@@ -20,8 +20,7 @@ VERSION=`cat $CI_PROJECT_DIR/VERSION`
 
 #git remote add github git@github.com:ids/clairctl.git
 
-if GIT_DIR=$CI_PROJECT_DIR/.git git rev-parse $VERSION >/dev/null 2>&1
-then
+if [ $(git tag -l "$VERSION") ]; then
   echo "${VERSION} tag already exists, deleting existing..."
   git tag -d $VERSION
   git push origin :refs/tags/$VERSION  
