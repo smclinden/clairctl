@@ -24,42 +24,42 @@ echo "https://${GITHUB_TOKEN}:x-oauth-basic@github.com" > ~/.git-credentials
 git config --global user.email $GITHUB_EMAIL
 git config --global user.name $GITHUB_USERNAME
 
-if [ $(git tag -l "$VERSION") ]; then
-  echo "${VERSION} tag already exists, deleting existing..."
-  git tag -d $VERSION
-  git push origin :refs/tags/$VERSION  
-  git push github :refs/tags/$VERSION  
-  github-release delete \
-    --user $GITHUB_USER \
-    --repo $GITHUB_REPO \
-    --tag $VERSION 
-fi
+#if [ $(git tag -l "$VERSION") ]; then
+#  echo "${VERSION} tag already exists, deleting existing..."
+#  git tag -d $VERSION
+#  git push origin :refs/tags/$VERSION  
+#  git push github :refs/tags/$VERSION  
+#  github-release delete \
+#    --user $GITHUB_USER \
+#    --repo $GITHUB_REPO \
+#    --tag $VERSION 
+#fi
 
-echo "creating tag ${VERSION}"
-git tag -a $VERSION -m "${VERSION}"
-git push origin --tags
-git push github master
-git push github --tags
-github-release release \
-  --user $GITHUB_USER \
-  --repo $GITHUB_REPO \
-  --tag $VERSION \
-  --name "${VERSION}" \
-  --description $RELEASE_DESC \
-  --pre-release  
+#echo "creating tag ${VERSION}"
+#git tag -a $VERSION -m "${VERSION}"
+#git push origin --tags
+#git push github master
+#git push github --tags
+#github-release release \
+#  --user $GITHUB_USER \
+#  --repo $GITHUB_REPO \
+#  --tag $VERSION \
+#  --name "${VERSION}" \
+#  --description $RELEASE_DESC \
+#  --pre-release  
 
 github-release upload \
     --user $GITHUB_USER \
     --repo $GITHUB_REPO \
     --tag $VERSION \
     --name "clairctl-darwin-amd64" \
-    --file client-bins/clairctl-darwin-amd64
+    --file $CI_PROJECT_DIR/client-bins/clairctl-darwin-amd64
 
 github-release upload \
     --user $GITHUB_USER \
     --repo $GITHUB_REPO \
     --tag $VERSION \
     --name "clairctl-linux-amd64" \
-    --file client-bins/clairctl-linux-amd64
+    --file $CI_PROJECT_DIR/client-bins/clairctl-linux-amd64
 
 echo "Release binairies have been deployed and updated"
