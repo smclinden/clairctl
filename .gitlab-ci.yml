@@ -28,10 +28,6 @@ compile:
     - go generate ./clair
     - go build -race -ldflags "-extldflags '-static'" -o $CI_PROJECT_DIR/clairctl
 
-  artifacts:
-    paths:
-      - clairctl
-
 export:
   stage: deploy
   script:
