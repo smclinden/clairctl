@@ -68,12 +68,14 @@ github-release upload \
 
 if [ "$CI_COMMIT_REF_NAME" == "master" ]; then
   rm -rf $CI_PROJECT_DIR/client-bins
+  echo "Before the pull"
+  git status
   git pull github master
   git checkout master
   git status
   git branch
   echo $VERSION > VERSION
-  git add -A
+  git add VERSION
   git commit -a -m "automated update to version: ${VERSION}"
   git push github master
 fi
