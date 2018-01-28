@@ -17,15 +17,6 @@ go get github.com/aktau/github-release
 
 cd $CI_PROJECT_DIR
 
-export VERSION=`cat VERSION`
-export PRE_FLAG=
-if [ "$CI_COMMIT_REF_NAME" == "develop" ]; then
-  VERSION = $VERSION_unstable
-  PRE_FLAG=--pre-release
-fi
-
-echo "VERSION: ${VERSION}"
-
 git config --global user.email $GITHUB_EMAIL
 git config --global user.name $GITHUB_USERNAME
 
@@ -37,9 +28,23 @@ git remote add github "https://$GITHUB_USERNAME:$GITHUB_TOKEN@github.com/ids/cla
 echo "re-configured remote w/ token:"
 git remote -v
 
+export VERSION=`cat VERSION`
+export PRE_FLAG=
+if [ "$CI_COMMIT_REF_NAME" == "develop" ]; then
+  VERSION = "develop"
+  PRE_FLAG=--pre-release
+else
+  # it's master, update the version
+  echo $VERSION | ./version-inc.sh > VERSION
+  git add VERSION
+  git commit -a -m "automated update to version: ${VERSION}"
+  git push github master
+fi
+
+echo "VERSION: ${VERSION}"
 echo "creating tag ${VERSION}"
 git tag -a $VERSION -m "${VERSION}" -f 
-git push github --tags
+git push --force github refs/tags/${VERSION}:refs/tags/${VERSION}
 
 github-release release \
   --user $GITHUB_USER \
