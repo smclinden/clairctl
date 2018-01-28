@@ -5,7 +5,7 @@ docker login -u "$DOCKERHUB_USERNAME" -p "$DOCKERHUB_PASSWORD"
 
 cd $CI_PROJECT_DIR 
 
-export VERSION=`echo $VERSION | ./version-inc.sh`
+export VERSION=`cat VERSION | ./version-inc.sh`
 if [ "$CI_COMMIT_REF_NAME" == "develop" ]; then
   VERSION = "develop"
 fi
