@@ -31,7 +31,7 @@ compile:
 export:
   stage: deploy
   script:
-    - bash $CI_PROJECT_DIR/deploy.sh
+    - bash $CI_PROJECT_DIR/ci-deploy.sh
   only:
     - develop
     - master
@@ -40,7 +40,7 @@ dockerize:
   image: gitlab/dind
   stage: deploy
   script:
-    - bash $CI_PROJECT_DIR/dockerize.sh
+    - bash $CI_PROJECT_DIR/ci-dockerize.sh
   only:
     - develop
     - master
