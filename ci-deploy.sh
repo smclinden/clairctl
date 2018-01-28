@@ -57,6 +57,21 @@ github-release release \
   --description "${RELEASE_DESC}" \
   $PRE_FLAG  
 
+if [ $? -neq 0 ]; then
+  github-release delete \
+    --user $GITHUB_USER \
+    --repo $GITHUB_REPO \
+    --tag $VERSION \
+
+  github-release release \
+    --user $GITHUB_USER \
+    --repo $GITHUB_REPO \
+    --tag $VERSION \
+    --name "${VERSION} ${RELEASE_TITLE}" \
+    --description "${RELEASE_DESC}" \
+    $PRE_FLAG  
+fi
+
 github-release upload \
     --user $GITHUB_USER \
     --repo $GITHUB_REPO \
