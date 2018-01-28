@@ -6,8 +6,8 @@ docker login -u "$DOCKERHUB_USERNAME" -p "$DOCKERHUB_PASSWORD"
 cd $CI_PROJECT_DIR 
 
 export VERSION=`cat VERSION | ./version-inc.sh`
-if [ "$CI_COMMIT_REF_NAME" == "develop" ]; then
-  VERSION = "develop"
+if [ "${CI_COMMIT_REF_NAME}" == "develop" ]; then
+  VERSION=develop
   echo "Building Docker Image ${IMAGE_NAME}:${VERSION}"
   docker build -t $IMAGE_NAME:$VERSION .
   docker push $IMAGE_NAME:$VERSION
