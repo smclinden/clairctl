@@ -13,6 +13,7 @@ variables:
 # Thus, making a symbolic link corrects this.
 
 stages:
+  - build
   - deploy
     
 compile:
