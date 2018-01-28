@@ -57,7 +57,7 @@ github-release release \
   --description "${RELEASE_DESC}" \
   $PRE_FLAG  
 
-if [ $? -neq 0 ]; then
+if [ $? -nq 0 ]; then
   github-release delete \
     --user $GITHUB_USER \
     --repo $GITHUB_REPO \
