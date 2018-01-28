@@ -35,11 +35,7 @@ if [ "$CI_COMMIT_REF_NAME" == "develop" ]; then
   PRE_FLAG=--pre-release
 else
   # it's master, update the version
-  git pull github master
   echo $VERSION | ./version-inc.sh > VERSION
-  git add VERSION
-  git commit -a -m "automated update to version: ${VERSION}"
-  git push github master
 fi
 
 echo "VERSION: ${VERSION}"
@@ -68,5 +64,13 @@ github-release upload \
     --tag $VERSION \
     --name "clairctl-linux-amd64" \
     --file $CI_PROJECT_DIR/client-bins/clairctl-linux-amd64
+
+
+if [ "$CI_COMMIT_REF_NAME" == "master" ]; then
+  git pull github master
+  git add VERSION
+  git commit -a -m "automated update to version: ${VERSION}"
+  git push github master
+fi
 
 echo "Release binairies have been deployed and updated"
