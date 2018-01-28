@@ -34,7 +34,8 @@ export:
     - bash $CI_PROJECT_DIR/deploy.sh
   artifacts:
     paths:
-      - clairctl
+      - client-bins/clairctl-darwin-amd64
+      - client-bins/clairctl-linux-amd64
   only:
     - master
 

@@ -18,8 +18,11 @@ go get github.com/aktau/github-release
 cd $CI_PROJECT_DIR
 echo $PWD
 echo $CI_COMMIT_TAG
-VERSION=`cat VERSION`_$CI_COMMIT_TAG
+VERSION=`cat VERSION`_$CI_COMMIT_REF_NAME
 echo "VERSION: ${VERSION}"
+
+git config --global user.email $GITHUB_EMAIL
+git config --global user.name $GITHUB_USERNAME
 
 echo "configured remotes:"
 git remote -v
@@ -37,7 +40,7 @@ github-release release \
   --user $GITHUB_USER \
   --repo $GITHUB_REPO \
   --tag $VERSION \
-  --name "${VERSION}" \
+  --name "${VERSION} Release" \
   --description "${RELEASE_DESC}" \
   --pre-release  
 
