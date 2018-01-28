@@ -8,7 +8,7 @@ ARG CLAIRCTL_VERSION=${CLAIRCTL_VERSION:-master}
 ARG CLAIRCTL_COMMIT=
 
 RUN apk add --update curl \
- && apk add --virtual build-dependencies go gcc build-base glide git \
+ && apk add --update --virtual build-dependencies go gcc build-base glide git \
  && adduser clairctl -D \
  && mkdir -p /reports \
  && chown -R clairctl:clairctl /reports /tmp \
@@ -45,6 +45,7 @@ clairctl:\n\
   port: 44480\n\
   tempfolder: /tmp'\
     > /home/clairctl/clairctl.yml
+
 
 USER clairctl
 
