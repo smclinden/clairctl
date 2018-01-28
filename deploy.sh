@@ -19,21 +19,6 @@ cd $CI_PROJECT_DIR
 VERSION=`cat $CI_PROJECT_DIR/VERSION`
 
 VERSION=$VERSION_$CI_COMMIT_TAG
-#git remote add github git@github.com:ids/clairctl.git
-
-echo "https://${GITHUB_TOKEN}:x-oauth-basic@github.com" > ~/.git-credentials
-git config --global user.email $GITHUB_EMAIL
-git config --global user.name $GITHUB_USERNAME
-
-#if [ $(git tag -l "$VERSION") ]; then
-#  echo "${VERSION} tag already exists, deleting existing..."
-#  git tag -d $VERSION
-#  git push github :refs/tags/$VERSION  
-#  github-release delete \
-#    --user $GITHUB_USER \
-#    --repo $GITHUB_REPO \
-#    --tag $VERSION 
-#fi
 
 echo "configured remotes:"
 git remote -v
@@ -44,7 +29,7 @@ echo "re-configured remote w/ token:"
 git remote -v
 
 echo "creating tag ${VERSION}"
-git tag -fa $VERSION -m "${VERSION}"
+git tag -a $VERSION -m "${VERSION}" -f 
 git push github --tags
 
 github-release release \
