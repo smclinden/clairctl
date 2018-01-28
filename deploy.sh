@@ -35,7 +35,7 @@ if [ "$CI_COMMIT_REF_NAME" == "develop" ]; then
   PRE_FLAG=--pre-release
 else
   # it's master, update the version
-  echo $VERSION | ./version-inc.sh > VERSION
+  VERSION=`echo $VERSION | ./version-inc.sh` 
 fi
 
 echo "VERSION: ${VERSION}"
@@ -68,6 +68,7 @@ github-release upload \
 
 if [ "$CI_COMMIT_REF_NAME" == "master" ]; then
   git pull github master
+  echo $VERSION > VERSION
   git add VERSION
   git commit -a -m "automated update to version: ${VERSION}"
   git push github master
