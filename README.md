@@ -38,7 +38,7 @@ Clairctl version is align with the [CoreOS Clair](https://github.com/coreos/clai
 
 ## Released version:
 
-Go to [Release](https://github.com/ids/clairctl/releases) and download your corresponding version
+Go to [Release](https://github.com/ids/clairctl/releases) and download the client version for your platform
 
 ## Master branch version
 

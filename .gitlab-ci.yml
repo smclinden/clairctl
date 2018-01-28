@@ -3,7 +3,7 @@ image: golang:latest
 
 variables:
   # Please edit to your GitLab project
-  REPO_NAME: gitlab.com/namespace/project
+  REPO_NAME: github.com/ids/clairctl
 
 # The problem is that to be able to use go get, one needs to put
 # the repository in the $GOPATH. So for example if your gitlab domain
@@ -11,29 +11,37 @@ variables:
 # the default GOPATH being /go, then you'd need to have your
 # repository in /go/src/gitlab.com/namespace/project
 # Thus, making a symbolic link corrects this.
-before_script:
-  - mkdir -p $GOPATH/src/$(dirname $REPO_NAME)
-  - ln -svf $CI_PROJECT_DIR $GOPATH/src/$REPO_NAME
-  - cd $GOPATH/src/$REPO_NAME
-  - glide install -v
-  - go get -u github.com/jteeuwen/go-bindata/...
-  - go generate ./clair
 
 stages:
-    - test
-    - build
-
-format:
-    stage: test
-    script:
-      - go fmt $(go list ./... | grep -v /vendor/)
-      - go vet $(go list ./... | grep -v /vendor/)
-      - go test -race $(go list ./... | grep -v /vendor/)
-
+  - build
+  - deploy
+    
 compile:
-    stage: build
-    script:
-      - go build -race -ldflags "-extldflags '-static'" -o $CI_PROJECT_DIR/clairctl
-    artifacts:
-      paths:
-        - clairctl
+  stage: build
+  script:
+    - mkdir -p $GOPATH/src/$(dirname $REPO_NAME)
+    - ln -svf $CI_PROJECT_DIR $GOPATH/src/$REPO_NAME
+    - cd $GOPATH/src/$REPO_NAME
+    - curl https://glide.sh/get | sh
+    - glide install -v
+    - go get -u github.com/jteeuwen/go-bindata/...
+    - go generate ./clair
+    - go build -race -ldflags "-extldflags '-static'" -o $CI_PROJECT_DIR/clairctl
+
+export:
+  stage: deploy
+  script:
+    - bash $CI_PROJECT_DIR/ci-deploy.sh
+  only:
+    - develop
+    - master
+
+dockerize:
+  image: gitlab/dind
+  stage: deploy
+  script:
+    - bash $CI_PROJECT_DIR/ci-dockerize.sh
+  only:
+    - develop
+    - master
+    
