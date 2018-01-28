@@ -28,7 +28,7 @@ if [ $(git tag -l "$VERSION") ]; then
   github-release delete \
     --user $GITHUB_USER \
     --repo $GITHUB_REPO \
-    --tag $VERSION \
+    --tag $VERSION 
 fi
 
 echo "creating tag ${VERSION}"
