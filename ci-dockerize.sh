@@ -8,11 +8,15 @@ cd $CI_PROJECT_DIR
 export VERSION=`cat VERSION | ./version-inc.sh`
 if [ "${CI_COMMIT_REF_NAME}" == "develop" ]; then
   VERSION=develop
-  echo "Building Docker Image ${IMAGE_NAME}:${VERSION}"
+  echo "***"
+  echo "*** Building Docker Image ${IMAGE_NAME}:${VERSION}"
+  echo "***"
   docker build -t $IMAGE_NAME:$VERSION .
   docker push $IMAGE_NAME:$VERSION
 else
-  echo "Building Docker Image ${IMAGE_NAME}:${VERSION} as latest release"
+  echo "***"
+  echo "*** Building Docker Image ${IMAGE_NAME}:${VERSION} as latest release"
+  echo "***"
   docker build -t $IMAGE_NAME:$VERSION .
   docker tag $IMAGE_NAME:$VERSION $IMAGE_NAME:latest
   docker push $IMAGE_NAME:$VERSION
