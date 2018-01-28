@@ -28,13 +28,15 @@ git remote add github "https://$GITHUB_USERNAME:$GITHUB_TOKEN@github.com/ids/cla
 echo "re-configured remote w/ token:"
 git remote -v
 
-export VERSION=`cat VERSION`
+export VERSION=develop
 export PRE_FLAG=
-if [ "$CI_COMMIT_REF_NAME" == "develop" ]; then
-  VERSION = "develop"
+echo "CI_COMMIT_REF_NAME: ${CI_COMMIT_REF_NAME}"
+
+if [ "${CI_COMMIT_REF_NAME}" == "develop" ]; then
   PRE_FLAG=--pre-release
 else
   # it's master, update the version
+  VERSION=`cat VERSION`
   VERSION=`echo $VERSION | ./version-inc.sh` 
 fi
 
