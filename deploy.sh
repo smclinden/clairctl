@@ -18,7 +18,7 @@ go get github.com/aktau/github-release
 cd $CI_PROJECT_DIR
 VERSION=`cat $CI_PROJECT_DIR/VERSION`
 
-git remote add github git@github.com:ids/clairctl.git
+#git remote add github git@github.com:ids/clairctl.git
 
 if GIT_DIR=$CI_PROJECT_DIR/.git git rev-parse $VERSION >/dev/null 2>&1
 then
