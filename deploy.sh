@@ -23,7 +23,7 @@ VERSION=$VERSION_$CI_COMMIT_TAG
 echo "configured remotes:"
 git remote -v
 git remote remove github
-git remote add github "https://$GITHUB_USERNAME@$GITHUB_TOKEN@github.com/ids/clairctl"
+git remote add github "https://$GITHUB_USERNAME:$GITHUB_TOKEN@github.com/ids/clairctl"
 
 echo "re-configured remote w/ token:"
 git remote -v
