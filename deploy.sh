@@ -18,7 +18,7 @@ go get github.com/aktau/github-release
 cd $CI_PROJECT_DIR
 echo $PWD
 echo $CI_COMMIT_TAG
-VERSION=`cat VERSION`_$CI_COMMIT_REF_NAME
+VERSION=`cat VERSION`_$CI_COMMIT_SHA
 echo "VERSION: ${VERSION}"
 
 git config --global user.email $GITHUB_EMAIL
