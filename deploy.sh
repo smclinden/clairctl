@@ -37,7 +37,7 @@ github-release release \
   --repo $GITHUB_REPO \
   --tag $VERSION \
   --name "${VERSION}" \
-  --description $RELEASE_DESC \
+  --description "$RELEASE_DESC" \
   --pre-release  
 
 github-release upload \
