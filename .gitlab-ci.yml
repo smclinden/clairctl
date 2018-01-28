@@ -41,11 +41,9 @@ export:
 
 dockerize:
   image: gitlab/dind
-  services:
-    - docker:dind
   stage: deploy
   script:
-    - cd $CI_PROJECT_DIR && export VERSION=`cat VERSION`_$CI_COMMIT_SHA
+    - cd $CI_PROJECT_DIR && export VERSION=`cat VERSION`_${CI_COMMIT_SHA:0:8}
     - docker login -u "$DOCKERHUB_USERNAME" -p "DOCKERHUB_PASSWORD"
     - docker build -t idstudios/clairctl:$VERSION .
     - docker tag idstudios/clairctl:$VERSION idstudios/clairctl:latest
