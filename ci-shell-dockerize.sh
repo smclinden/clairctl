@@ -3,6 +3,7 @@
 IMAGE_NAME=idstudios/clairctl
 docker login -u "$DOCKERHUB_USERNAME" -p "$DOCKERHUB_PASSWORD"
 
+whoami
 cd $CI_PROJECT_DIR 
 
 export IMAGE_VERSION=`cat VERSION | ./version-inc.sh`
