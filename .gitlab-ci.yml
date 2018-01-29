@@ -21,6 +21,8 @@ compile:
   stage: build
   tags:
     - docker
+  artifacts:
+    untracked: true
   script:
     - mkdir -p $GOPATH/src/$(dirname $REPO_NAME)
     - ln -svf $CI_PROJECT_DIR $GOPATH/src/$REPO_NAME
