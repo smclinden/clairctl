@@ -68,7 +68,8 @@ func (layers *layering) pushAll() error {
 			payload.Layer.Path += "/layer.tar"
 		}
 
-		log.Infof("clairCtl http hosted layer path sent to clair: %v", payload.Layer.Path)
+		log.Infof("URL sent to clair for analysis: %v", payload.Layer.Path)
+		fmt.Printf("layer uri: %v\n", payload.Layer.Path)
 
 		if err := pushLayer(payload); err != nil {
 			log.Infof("adding layer %d/%d [%v]: %v", index+1, layerCount, lUID, err)

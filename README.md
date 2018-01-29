@@ -20,8 +20,9 @@ Local scanning seems like all you would need in a CI job, as Clair is likely to 
 I've made a few mods to support this:
 
 * It now defaults to local scan
-* I added a line `viper.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))` in the config.go so that nested config.yml settings could be passed as env variables, which is handy in CI. See the [clairctlenv](clairctlenv) file for examples.
-* I added a routine to start the local server for a report, which seemed missing.
+* Added a line `viper.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))` in the config.go so that nested config.yml settings could be passed as env variables, which is handy in CI. See the [clairctlenv](clairctlenv) file for examples.
+* Added a routine to start the local server for a report, which seemed missing.
+* Added a freeport routine to get an available port dynamically (deprecating the setting in yaml and env).  This is needed when running multuple concurrent scans on a ci runner.
 
 > I've been able to use clairctl to scan the resulting clairctl docker image, which is very meta, and also provides a working example of using clairctl in a Gitlab CI pipeline.
 

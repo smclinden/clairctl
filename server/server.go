@@ -2,6 +2,7 @@ package server
 
 import (
 	"crypto/tls"
+	"fmt"
 	"net"
 	"net/http"
 	"net/http/httputil"
@@ -29,6 +30,7 @@ func Serve(sURL string) error {
 
 		listener := tcpListener(sURL)
 		log.Info("Starting Server on ", listener.Addr())
+		fmt.Printf("Starting Server on %v/local\n", listener.Addr())
 
 		if err := http.Serve(listener, nil); err != nil {
 			log.Fatalf("local server error: %v", err)

@@ -11,15 +11,15 @@ import (
 	"os/user"
 	"strings"
 
-	"gopkg.in/yaml.v2"
-
 	"github.com/coreos/pkg/capnslog"
 	"github.com/ids/clairctl/xstrings"
 	"github.com/ids/xnet"
 	"github.com/spf13/viper"
+	"gopkg.in/yaml.v2"
 )
 
 var log = capnslog.NewPackageLogger("github.com/ids/clairctl", "config")
+var serverPort = 0
 
 var errNoInterfaceProvided = errors.New("could not load configuration: no interface provided")
 var errInvalidInterface = errors.New("Interface does not exist")
@@ -283,11 +283,36 @@ func writeConfigFile(logins loginMapping, file string) error {
 	return nil
 }
 
+func getFreePort() (int, error) {
+	addr, err := net.ResolveTCPAddr("tcp", "localhost:0")
+	if err != nil {
+		return 0, err
+	}
+
+	l, err := net.ListenTCP("tcp", addr)
+	if err != nil {
+		return 0, err
+	}
+	defer l.Close()
+	return l.Addr().(*net.TCPAddr).Port, nil
+}
+
 //LocalServerIP return the local clairctl server IP
 func LocalServerIP() (string, error) {
-	localPort := viper.GetString("clairctl.port")
 	localIP := viper.GetString("clairctl.ip")
 	localInterfaceConfig := viper.GetString("clairctl.interface")
+
+	//localPort := viper.GetString("clairctl.port")
+	if serverPort == 0 {
+		port, err := getFreePort()
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		log.Debugf("port %v is free", port)
+		serverPort = port
+	}
+	localPort := fmt.Sprintf("%v", serverPort)
 
 	if localIP == "" {
 		log.Info("retrieving interface for local IP")

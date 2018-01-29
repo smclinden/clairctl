@@ -98,7 +98,7 @@ func save(imageName string) (distribution.Manifest, error) {
 	log.Debug("docker image to save: ", imageName)
 	log.Debug("saving in: ", path)
 
-	fmt.Printf("\ncaching image layers for exchange with clair, please be patient...")
+	fmt.Printf("\nCaching image layers for exchange with Clair, please be patient...")
 
 	cli, err := client.NewEnvClient()
 	if err != nil {
