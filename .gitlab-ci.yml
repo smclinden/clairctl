@@ -20,8 +20,6 @@ compile:
   stage: build
   tags:
     - docker
-  artifacts:
-    untracked: true    
   script:
     - mkdir -p $GOPATH/src/$(dirname $REPO_NAME)
     - ln -svf $CI_PROJECT_DIR $GOPATH/src/$REPO_NAME
@@ -32,16 +30,24 @@ compile:
     - go generate ./clair
     - go build -race -ldflags "-extldflags '-static'" -o $CI_PROJECT_DIR/clairctl
 
-#export:
-#  stage: deploy
-#  tags:
-#    - docker
-#  script:
-#    - bash $CI_PROJECT_DIR/ci-deploy.sh
-#  only:
-#    - develop
-#    - master
+export:
+  stage: deploy
+  tags:
+    - docker
+  artifacts:
+    - client-bins/clairctl-darwin-amd64   
+    - client-bins/clairctl-linux-amd64   
+  script:
+    - bash $CI_PROJECT_DIR/ci-deploy.sh
+  only:
+    - develop
+    - master
 
+#
+# The DinD route works well enough, but there is no means
+# to allow something like clairctl to host an http server
+# for exchange with the Clair API, so moved to shell
+#
 #dockerize:
 #  image: gitlab/dind
 #  stage: deploy
@@ -56,14 +62,13 @@ compile:
 dockerize:
   stage: deploy
   dependencies: 
-    - compile  
+    - export  
   tags:
     - shell
   script:
     - bash $CI_PROJECT_DIR/ci-shell-dockerize.sh 
   artifacts:
-    paths:
-      - ./reports/html
+      - ./reports/html/analysis-idstudios*
   only:
     - develop
     - master

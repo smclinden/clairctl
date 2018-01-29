@@ -17,6 +17,10 @@ echo "*** Building Docker Image ${IMAGE_NAME}:${IMAGE_VERSION}"
 echo "***"
 docker build -t $IMAGE_NAME:$IMAGE_VERSION .
 
+
+cp client-bins/clairctl-linux-amd64 ./clairctl
+chmod +x clairctl
+
 echo "***"
 echo "*** Scanning Docker Image ${IMAGE_NAME}:${IMAGE_VERSION}"
 echo "***"
