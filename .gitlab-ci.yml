@@ -18,6 +18,8 @@ stages:
     
 compile:
   stage: build
+  tags:
+    - docker
   script:
     - mkdir -p $GOPATH/src/$(dirname $REPO_NAME)
     - ln -svf $CI_PROJECT_DIR $GOPATH/src/$REPO_NAME
@@ -28,20 +30,36 @@ compile:
     - go generate ./clair
     - go build -race -ldflags "-extldflags '-static'" -o $CI_PROJECT_DIR/clairctl
 
-export:
+#export:
+#  stage: deploy
+#  tags:
+#    - docker
+#  script:
+#    - bash $CI_PROJECT_DIR/ci-deploy.sh
+#  only:
+#    - develop
+#    - master
+
+#dockerize:
+#  image: gitlab/dind
+#  stage: deploy
+#  tags:
+#    - docker
+#  script:
+#    - bash $CI_PROJECT_DIR/ci-dockerize.sh
+#  only:
+#    - develop
+#    - master
+    
+security_scan:
   stage: deploy
+  tags:
+    - shell
   script:
-    - bash $CI_PROJECT_DIR/ci-deploy.sh
+    - echo "performing a shell level security scan..."
+    - pwd
+    - ip addr
   only:
     - develop
     - master
 
-dockerize:
-  image: gitlab/dind
-  stage: deploy
-  script:
-    - bash $CI_PROJECT_DIR/ci-dockerize.sh
-  only:
-    - develop
-    - master
-    
