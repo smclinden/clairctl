@@ -25,6 +25,25 @@ I've made a few mods to support this:
 
 > I've been able to use clairctl to scan the resulting clairctl docker image, which is very meta, and also provides a working example of using clairctl in a Gitlab CI pipline.
 
+The __Gitlab CI__ jobs do the following on commit:
+
+### for all branches:
+- compile
+
+### for master:
+- increments the product version
+- cross-compiles and publishes binaries to Github on a new release version
+- builds a new docker image 
+- scans the image with clairctl (an artifact from the cross-compile job previously)
+- pushes the new version and tag to docker hub
+- updates the “latest” tag and pushes
+
+### for develop:
+- cross-compiles and publishes binaries to Github on a standing pre-release “develop" version
+- builds new docker image “develop” version
+- scans the image with clairctl (an artifact from the cross-compile job)
+- pushes the new develop image to docker hub
+
 ---
 
 Clairctl is a lightweight command-line tool doing the bridge between Registries as Docker Hub, Docker Registry or Quay.io, and the CoreOS vulnerability tracker, Clair.
