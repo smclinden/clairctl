@@ -14,7 +14,8 @@ variables:
 
 stages:
   - build
-  - deploy
+  - publish
+  - dockerize
     
 compile:
   stage: build
@@ -31,7 +32,7 @@ compile:
     - go build -race -ldflags "-extldflags '-static'" -o $CI_PROJECT_DIR/clairctl
 
 export:
-  stage: deploy
+  stage: publish
   tags:
     - docker
   artifacts:
@@ -60,8 +61,8 @@ export:
 #    - develop
 #    - master
     
-dockerize:
-  stage: deploy
+docker_image:
+  stage: dockerize
   dependencies: 
     - export  
   tags:
