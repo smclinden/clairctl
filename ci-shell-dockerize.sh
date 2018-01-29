@@ -3,7 +3,6 @@
 IMAGE_NAME=idstudios/clairctl
 docker login -u "$DOCKERHUB_USERNAME" -p "$DOCKERHUB_PASSWORD"
 
-whoami
 cd $CI_PROJECT_DIR 
 
 export IMAGE_VERSION=`cat VERSION | ./version-inc.sh`
@@ -21,7 +20,7 @@ echo "*** Scanning Docker Image ${IMAGE_NAME}:${IMAGE_VERSION}"
 echo "***"
 ./clairctl health
 
-./clairctl report $IMAGE_NAME:$IMAGE_VERSION -f html
+./clairctl report docker.io/$IMAGE_NAME:$IMAGE_VERSION -f html --log-level=debug
 
 docker push $IMAGE_NAME:$IMAGE_VERSION
 
