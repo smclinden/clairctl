@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -e 
-
 IMAGE_NAME=idstudios/clairctl
 docker login -u "$DOCKERHUB_USERNAME" -p "$DOCKERHUB_PASSWORD"
 
@@ -17,7 +15,6 @@ echo "*** Building Docker Image ${IMAGE_NAME}:${IMAGE_VERSION}"
 echo "***"
 docker build -t $IMAGE_NAME:$IMAGE_VERSION .
 
-
 cp client-bins/clairctl-linux-amd64 ./clairctl
 chmod +x clairctl
 
@@ -25,8 +22,21 @@ echo "***"
 echo "*** Scanning Docker Image ${IMAGE_NAME}:${IMAGE_VERSION}"
 echo "***"
 ./clairctl health
+if [ $? -ne 0 ]; then
+  echo ">>> Failed the ClairCtl health check!!!"
 
-./clairctl report docker.io/$IMAGE_NAME:$IMAGE_VERSION -f html --log-level=debug
+else
+  ./clairctl analyze docker.io/$IMAGE_NAME:$IMAGE_VERSION --filters=Defcon1,Critical,High
+  if [ $? -ne 0 ]; then
+    echo ">>> Failed ClairCtl Vulnerability Criteia filters!!!"
+    echo ">>> Running Detailed HTML Report"
+    ./clairctl report docker.io/$IMAGE_NAME:$IMAGE_VERSION -f html
+  else
+    echo "***"
+    echo "*** PASSED Clair Scanning Criteria!"
+    echo "***"
+  fi
+fi 
 
 docker push $IMAGE_NAME:$IMAGE_VERSION
 

@@ -31,7 +31,7 @@ compile:
     - go generate ./clair
     - go build -race -ldflags "-extldflags '-static'" -o $CI_PROJECT_DIR/clairctl
 
-export:
+create_binaries:
   stage: publish
   tags:
     - docker
@@ -61,17 +61,17 @@ export:
 #    - develop
 #    - master
     
-docker_image:
+build_docker:
   stage: dockerize
   dependencies: 
-    - export  
+    - create_binaries
   tags:
     - shell
   script:
     - bash $CI_PROJECT_DIR/ci-shell-dockerize.sh 
   artifacts:
     paths:
-      - ./reports/html/analysis-idstudios*
+      - ./reports
   only:
     - develop
     - master

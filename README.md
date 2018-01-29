@@ -5,27 +5,25 @@
 ---
 This was forked because I was unable to scan local images, I kept getting 404 errors in Clair.  Having never cut a line of Go code, it only seemed logical to try to debug it.  It is a really cool tool. How hard could it be?
 
-Actually, Go is so full of common sense, not that hard. Figured out a few things about Clair and how this tool works.
-
-When you pass it a local image to scan, __clairCtl__ will copy the image layers to a temp location, and then fire up a temporary HTTP server to host them up for Clair.
+Seems when you pass it a local image to scan, __clairCtl__ will copy the image layers to a temp location, and then fire up a temporary HTTP server to host them up for Clair.
 
 __clairCtl__ then sends requests to Clair to scan each layer, which is an url back to itself.
 
 The issue I was having was that the url clairCtl was sending to Clair didn't match the actual path it was serving via HTTP, because it was derriving the temp path in two places using two different sources for image name information, and they often didn't match.
 
-I also found issues trying to scan remote gitlab registry images, and this was also tied to the path logic not being able to handle a colon in the url.
+I've altered that logic a bit to allow the names to match by letting the user supplied name pass through. Still a work in progress.
 
-I simply altered the path logic on both ends so it would match up... it is a band aid fix, and I'm leaning toward the idea it wouldn't be better to just generate a GUID for this purpose, and attach it to the job.
-
-But I need to read more Go first ;)
-
-In any cases, all the images I couldn't scan remotely, I can now scan locally, including the ones affected by the change in Docker's manifest format on DockerHub that causes clairCtl to kick up an __Unsupported Schema__ error: https://github.com/jgsqware/clairctl/issues/93
+In any case, all the images I couldn't scan remotely, I can now scan locally, including the ones affected by the change in Docker's manifest format on DockerHub that causes clairCtl to kick up an __Unsupported Schema__ error: https://github.com/jgsqware/clairctl/issues/93
 
 Local scanning seems like all you would need in a CI job, as Clair is likely to be hosted as a shared service in the pre-production environment. All you really need is the ability to scan the local image after it has been built in the CI runner.
 
-__clairCtl__ seems perfect for this, and now it works...
+I've made a few mods to support this:
 
-This may be a codebase worth maintaining.  Props to the original author for such great work.
+* It now defaults to local scan
+* I added a line `viper.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))` in the config.go so that nested config.yml settings could be passed as env variables, which is handy in CI. See the [clairctlenv](clairctlenv) file for examples.
+* I added a routine to start the local server for a report, which seemed missing.
+
+> I've been able to use clairctl to scan the resulting clairctl docker image, which is very meta, and also provides a working example of using clairctl in a Gitlab CI pipline.
 
 ---
 
