@@ -53,7 +53,7 @@ compile:
 #    - develop
 #    - master
     
-security_scan:
+dockerize:
   stage: deploy
   dependencies: 
     - compile  
