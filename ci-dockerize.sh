@@ -1,26 +1,22 @@
 #!/bin/bash
 
-ip addr
-
 IMAGE_NAME=idstudios/clairctl
 docker login -u "$DOCKERHUB_USERNAME" -p "$DOCKERHUB_PASSWORD"
 
 cd $CI_PROJECT_DIR 
 
-export VERSION=`cat VERSION | ./version-inc.sh`
+export IMAGE_VERSION=`cat VERSION | ./version-inc.sh`
 if [ "${CI_COMMIT_REF_NAME}" == "develop" ]; then
-  VERSION=develop
-  echo "***"
-  echo "*** Building Docker Image ${IMAGE_NAME}:${VERSION}"
-  echo "***"
-  docker build -t $IMAGE_NAME:$VERSION .
-  docker push $IMAGE_NAME:$VERSION
-else
-  echo "***"
-  echo "*** Building Docker Image ${IMAGE_NAME}:${VERSION} as latest release"
-  echo "***"
-  docker build -t $IMAGE_NAME:$VERSION .
-  docker tag $IMAGE_NAME:$VERSION $IMAGE_NAME:latest
-  docker push $IMAGE_NAME:$VERSION
-  docker push $IMAGE_NAME:latest
+  IMAGE_VERSION=develop
 fi
+
+echo "***"
+echo "*** Building Docker Image ${IMAGE_NAME}:${IMAGE_VERSION}"
+echo "***"
+docker build -t $IMAGE_NAME:$IMAGE_VERSION .
+docker push $IMAGE_NAME:$IMAGE_VERSION
+
+if [ "${CI_COMMIT_REF_NAME}" == "master" ]; then
+  docker tag $IMAGE_NAME:$VERSION $IMAGE_NAME:latest
+  docker push $IMAGE_NAME:latest
+else

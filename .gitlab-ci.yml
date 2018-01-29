@@ -20,6 +20,8 @@ compile:
   stage: build
   tags:
     - docker
+  artifacts:
+    untracked: true    
   script:
     - mkdir -p $GOPATH/src/$(dirname $REPO_NAME)
     - ln -svf $CI_PROJECT_DIR $GOPATH/src/$REPO_NAME
@@ -53,12 +55,12 @@ compile:
     
 security_scan:
   stage: deploy
+  dependencies: 
+    - compile  
   tags:
     - shell
   script:
-    - echo "performing a shell level security scan..."
-    - pwd
-    - ip addr
+    - bash $CI_PROJECT_DIR/ci-shell-dockerize.sh 
   only:
     - develop
     - master
