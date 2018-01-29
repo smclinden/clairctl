@@ -23,7 +23,7 @@ I've made a few mods to support this:
 * I added a line `viper.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))` in the config.go so that nested config.yml settings could be passed as env variables, which is handy in CI. See the [clairctlenv](clairctlenv) file for examples.
 * I added a routine to start the local server for a report, which seemed missing.
 
-> I've been able to use clairctl to scan the resulting clairctl docker image, which is very meta, and also provides a working example of using clairctl in a Gitlab CI pipline.
+> I've been able to use clairctl to scan the resulting clairctl docker image, which is very meta, and also provides a working example of using clairctl in a Gitlab CI pipeline.
 
 The __Gitlab CI__ jobs do the following on commit:
 
