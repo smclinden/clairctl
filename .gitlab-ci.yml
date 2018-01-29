@@ -35,8 +35,9 @@ export:
   tags:
     - docker
   artifacts:
-    - client-bins/clairctl-darwin-amd64   
-    - client-bins/clairctl-linux-amd64   
+    paths:
+      - client-bins/clairctl-darwin-amd64   
+      - client-bins/clairctl-linux-amd64   
   script:
     - bash $CI_PROJECT_DIR/ci-deploy.sh
   only:
@@ -68,6 +69,7 @@ dockerize:
   script:
     - bash $CI_PROJECT_DIR/ci-shell-dockerize.sh 
   artifacts:
+    paths:
       - ./reports/html/analysis-idstudios*
   only:
     - develop
