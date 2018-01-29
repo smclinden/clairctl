@@ -22,7 +22,7 @@ echo "*** Scanning Docker Image ${IMAGE_NAME}:${IMAGE_VERSION}"
 echo "***"
 ./clairctl health
 
-./clairctl report $IMAGE_NAME:$IMAGE_VERSION -f html --log-level=debug
+./clairctl report docker.io/$IMAGE_NAME:$IMAGE_VERSION -f html --log-level=debug
 
 docker push $IMAGE_NAME:$IMAGE_VERSION
 

@@ -61,6 +61,9 @@ dockerize:
     - shell
   script:
     - bash $CI_PROJECT_DIR/ci-shell-dockerize.sh 
+  artifacts:
+    paths:
+      - ./reports/html
   only:
     - develop
     - master
