@@ -64,7 +64,7 @@ create_binaries:
 build_docker:
   stage: dockerize
   dependencies: 
-    - create_binaries
+    - compile
   tags:
     - shell
   script:
