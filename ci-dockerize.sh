@@ -1,5 +1,7 @@
 #!/bin/bash
 
+ip addr
+
 IMAGE_NAME=idstudios/clairctl
 docker login -u "$DOCKERHUB_USERNAME" -p "$DOCKERHUB_PASSWORD"
 
