@@ -39,6 +39,6 @@ docker push $IMAGE_NAME:$IMAGE_VERSION
 
 if [ "${CI_COMMIT_REF_NAME}" == "master" ]; then
   echo "Marking image as latest"
-  docker tag $IMAGE_NAME:$VERSION $IMAGE_NAME:latest
+  docker tag $IMAGE_NAME:$IMAGE_VERSION $IMAGE_NAME:latest
   docker push $IMAGE_NAME:latest
 fi
