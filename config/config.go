@@ -81,7 +81,8 @@ func Init(cfgFile string, logLevel string, noClean bool) {
 	viper.SetConfigName("clairctl")        // name of config file (without extension)
 	viper.AddConfigPath("$HOME/.clairctl") // adding home directory as first search path
 	viper.AddConfigPath(".")               // adding home directory as first search path
-	viper.AutomaticEnv()                   // read in environment variables that match
+	viper.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
+	viper.AutomaticEnv() // read in environment variables that match
 	if cfgFile != "" {
 		viper.SetConfigFile(cfgFile)
 	}
