@@ -68,6 +68,8 @@ func pushLayer(layer v1.LayerEnvelope) error {
 	}
 
 	lURI := fmt.Sprintf("%v/layers", uri)
+	log.Debugf("POSTing to the clair server: %v", lURI)
+
 	request, err := http.NewRequest("POST", lURI, bytes.NewBuffer(lJSON))
 	if err != nil {
 		return fmt.Errorf("creating 'add layer' request: %v", err)
@@ -86,9 +88,6 @@ func pushLayer(layer v1.LayerEnvelope) error {
 		if response.StatusCode == 422 {
 			return ErrUnanalizedLayer
 		}
-		log.Infof("If you are seeing 404 errors on a local scan it likely means that the url Clair is using to callback to the clairCtl utility does not match temp location.")
-		log.Infof("Review the Clair logs for the failing url, and make sure to reconcile the path after /local with the actual location clairCtl stores the image.")
-		log.Infof("Make sure to use the --log-level DEBUG flag to view the information required")
 		return fmt.Errorf("receiving http error: %d", response.StatusCode)
 	}
 
@@ -126,7 +125,7 @@ func blobsURI(registry string, name string, digest string) string {
 	log.Debugf("blobs uri - registry: %v", registry)
 	log.Debugf("blobs uri - name: %v", name)
 	log.Debugf("blobs uri - digest: %v", digest)
-	
+
 	return strings.Join([]string{registry, name, "blobs", digest}, "/")
 }
 

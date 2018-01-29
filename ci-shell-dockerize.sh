@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e 
+
 IMAGE_NAME=idstudios/clairctl
 docker login -u "$DOCKERHUB_USERNAME" -p "$DOCKERHUB_PASSWORD"
 
@@ -20,7 +22,7 @@ echo "*** Scanning Docker Image ${IMAGE_NAME}:${IMAGE_VERSION}"
 echo "***"
 ./clairctl health
 
-./clairctl report docker.io/$IMAGE_NAME:$IMAGE_VERSION -f html --log-level=debug
+./clairctl report $IMAGE_NAME:$IMAGE_VERSION -f html --log-level=debug
 
 docker push $IMAGE_NAME:$IMAGE_VERSION
 
