@@ -305,13 +305,16 @@ func LocalServerIP() (string, error) {
 	localInterfaceConfig := viper.GetString("clairctl.interface")
 
 	if localPort == "0" || localPort == "" {
-		port, err := getFreePort(localIP)
-		if err != nil {
-			log.Fatal(err)
+		if serverPort == 0 {
+			port, err := getFreePort(localIP)
+			if err != nil {
+				log.Fatal(err)
+			}
+			log.Debugf("port %v is free", port)
+			serverPort = port
 		}
-
-		log.Debugf("port %v is free", port)
-		localPort = fmt.Sprintf("%v", port)
+		log.Debugf("server port: %v", serverPort)
+		localPort = fmt.Sprintf("%v", serverPort)
 	}
 
 	if localIP == "" {
