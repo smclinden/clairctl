@@ -283,8 +283,8 @@ func writeConfigFile(logins loginMapping, file string) error {
 	return nil
 }
 
-func getFreePort() (int, error) {
-	addr, err := net.ResolveTCPAddr("tcp", "localhost:0")
+func getFreePort(localIP string) (int, error) {
+	addr, err := net.ResolveTCPAddr("tcp", fmt.Sprintf("%v:0", localIP))
 	if err != nil {
 		return 0, err
 	}
@@ -294,7 +294,7 @@ func getFreePort() (int, error) {
 		return 0, err
 	}
 	port := l.Addr().(*net.TCPAddr).Port
-	defer l.Close()
+	err = l.Close()
 	return port, nil
 }
 
@@ -305,7 +305,7 @@ func LocalServerIP() (string, error) {
 
 	//localPort := viper.GetString("clairctl.port")
 	if serverPort == 0 {
-		port, err := getFreePort()
+		port, err := getFreePort(localIP)
 		if err != nil {
 			log.Fatal(err)
 		}
