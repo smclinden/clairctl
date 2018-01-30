@@ -300,20 +300,19 @@ func getFreePort(localIP string) (int, error) {
 
 //LocalServerIP return the local clairctl server IP
 func LocalServerIP() (string, error) {
+	localPort := viper.GetString("clairctl.port")
 	localIP := viper.GetString("clairctl.ip")
 	localInterfaceConfig := viper.GetString("clairctl.interface")
 
-	//localPort := viper.GetString("clairctl.port")
-	if serverPort == 0 {
+	if localPort == "0" || localPort == "" {
 		port, err := getFreePort(localIP)
 		if err != nil {
 			log.Fatal(err)
 		}
 
 		log.Debugf("port %v is free", port)
-		serverPort = port
+		localPort = fmt.Sprintf("%v", port)
 	}
-	localPort := fmt.Sprintf("%v", serverPort)
 
 	if localIP == "" {
 		log.Info("retrieving interface for local IP")
