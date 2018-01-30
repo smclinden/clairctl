@@ -69,7 +69,7 @@ func (layers *layering) pushAll() error {
 		}
 
 		log.Infof("URL sent to clair for analysis: %v", payload.Layer.Path)
-		fmt.Printf("layer uri: %v\n", payload.Layer.Path)
+		fmt.Printf("Serving Layer: %v\n", payload.Layer.Path)
 
 		if err := pushLayer(payload); err != nil {
 			log.Infof("adding layer %d/%d [%v]: %v", index+1, layerCount, lUID, err)

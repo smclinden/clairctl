@@ -10,6 +10,7 @@ import (
 	"os"
 	"os/user"
 	"strings"
+	"sync"
 
 	"github.com/coreos/pkg/capnslog"
 	"github.com/ids/clairctl/xstrings"
@@ -24,6 +25,7 @@ var errNoInterfaceProvided = errors.New("could not load configuration: no interf
 var errInvalidInterface = errors.New("Interface does not exist")
 var ErrLoginNotFound = errors.New("user is not log in")
 
+var serverPortMutex sync.Mutex
 var serverPort = 0
 
 var IsLocal = true
@@ -301,11 +303,13 @@ func getFreePort(localIP string) (int, error) {
 
 //LocalServerIP return the local clairctl server IP
 func LocalServerIP() (string, error) {
+
 	localPort := viper.GetString("clairctl.port")
 	localIP := viper.GetString("clairctl.ip")
 	localInterfaceConfig := viper.GetString("clairctl.interface")
 
 	if localPort == "0" || localPort == "" {
+		serverPortMutex.Lock()
 		if serverPort == 0 {
 			port, err := getFreePort(localIP)
 			if err != nil {
@@ -314,6 +318,7 @@ func LocalServerIP() (string, error) {
 			log.Debugf("port %v is free", port)
 			serverPort = port
 		}
+		serverPortMutex.Unlock()
 		localPort = fmt.Sprintf("%v", serverPort)
 	}
 

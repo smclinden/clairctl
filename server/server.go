@@ -9,7 +9,6 @@ import (
 	"net/url"
 	"os"
 	"regexp"
-	"strings"
 	"time"
 
 	"github.com/coreos/pkg/capnslog"
@@ -47,11 +46,15 @@ func tcpListener(sURL string) (listener net.Listener) {
 		log.Fatalf("cannot instanciate listener: %v", err)
 	}
 
-	if viper.GetInt("clairctl.port") == 0 {
-		port := strings.Split(listener.Addr().String(), ":")[1]
-		log.Debugf("Update local server port from %q to %q", "0", port)
-		viper.Set("clairctl.port", port)
-	}
+	/*
+		**
+		** pulled my hair out looking for the race, should have read the stack trace
+		if viper.GetInt("clairctl.port") == 0 {
+			port := strings.Split(listener.Addr().String(), ":")[1]
+			log.Debugf("Update local server port from %q to %q", "0", port)
+			viper.Set("clairctl.port", port)
+		}
+	*/
 
 	return
 }
