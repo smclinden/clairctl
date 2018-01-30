@@ -19,11 +19,12 @@ import (
 )
 
 var log = capnslog.NewPackageLogger("github.com/ids/clairctl", "config")
-var serverPort = 0
 
 var errNoInterfaceProvided = errors.New("could not load configuration: no interface provided")
 var errInvalidInterface = errors.New("Interface does not exist")
 var ErrLoginNotFound = errors.New("user is not log in")
+
+var serverPort = 0
 
 var IsLocal = true
 var Insecure = false
@@ -313,7 +314,6 @@ func LocalServerIP() (string, error) {
 			log.Debugf("port %v is free", port)
 			serverPort = port
 		}
-		log.Debugf("server port: %v", serverPort)
 		localPort = fmt.Sprintf("%v", serverPort)
 	}
 

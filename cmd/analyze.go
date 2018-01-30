@@ -82,6 +82,7 @@ var analyzeCmd = &cobra.Command{
 				fmt.Println(errInternalError)
 				log.Fatalf("rendering analysis: %v", err)
 			}
+			fmt.Println("")
 		case "json":
 			var vulnsMap = make(map[string]v1.Vulnerability)
 			for _, layer := range analysis.Layers {
