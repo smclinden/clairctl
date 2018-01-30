@@ -293,8 +293,9 @@ func getFreePort() (int, error) {
 	if err != nil {
 		return 0, err
 	}
+	port := l.Addr().(*net.TCPAddr).Port
 	defer l.Close()
-	return l.Addr().(*net.TCPAddr).Port, nil
+	return port, nil
 }
 
 //LocalServerIP return the local clairctl server IP

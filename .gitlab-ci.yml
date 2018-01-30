@@ -23,6 +23,8 @@ compile:
     - docker
   artifacts:
     untracked: true
+    expire_in: 1 hour
+
   script:
     - mkdir -p $GOPATH/src/$(dirname $REPO_NAME)
     - ln -svf $CI_PROJECT_DIR $GOPATH/src/$REPO_NAME
@@ -41,6 +43,7 @@ create_binaries:
     paths:
       - client-bins/clairctl-darwin-amd64   
       - client-bins/clairctl-linux-amd64   
+    expire_in: 2 days
   script:
     - bash $CI_PROJECT_DIR/ci-deploy.sh
   only:
@@ -74,6 +77,7 @@ build_docker:
   artifacts:
     paths:
       - ./reports
+    expire_in: 1 week
   only:
     - develop
     - master
