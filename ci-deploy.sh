@@ -2,7 +2,7 @@
 
 GITHUB_USER=ids
 GITHUB_REPO=clairctl
-RELEASE_DESC="A CLI based utility for interacting with the Clair API"
+RELEASE_DESC="A CLI tool for interacting with the Clair API tuned for use in CI/CD pipelines"
 RELEASE_TITLE=" - stable release"
 mkdir -p $GOPATH/src/$(dirname $REPO_NAME)
 ln -svf $CI_PROJECT_DIR $GOPATH/src/$REPO_NAME
